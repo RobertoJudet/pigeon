@@ -1,3 +1,3 @@
-/**
- * Created by roberto on 26/05/15.
- */
+angular.module('MainController', []).controller('MainController', function($scope) {
+	$scope.tagline = 'To the main controller!';
+});

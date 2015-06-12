@@ -1,16 +1,32 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var db = require('./config/db');
-var io = require('socket.io')(http);
+(function() {
+	var app = require('express')();
+	var http = require('http').Server(app);
+	var path = require('path');
+	var logger = require('morgan');
+	var bodyParser = require('body-parser');
+	var cookieParser = require('cookie-parser');
+	var db = require('./config/db');
 
-app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/html/app.html');
-});
+//engine setup
+	app.set('views', path.join(__dirname, 'views'));
+	app.engine('html', require('ejs').renderFile);
+	app.set('viewEngine', 'html');
 
-io.on('connection', function(socket){
-  console.log('a user connected');
-});
+	app.use(logger('dev'));
+	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({
+		extended: true
+	}));
+	app.use(cookieParser());
+	app.use(express.static(path.join(__dirname, '../client')));
 
-http.listen(8080, function() {
-  console.log('listening on *:8080');
-});
+	app.get('/', function (request, response) {
+		response.sendFile(__dirname + '/html/index.html');
+	});
+
+	http.listen(8080, function () {
+		console.log('listening on *:8080');
+	});
+
+}());
+

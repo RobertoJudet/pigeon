@@ -1,3 +1,3 @@
-/**
- * Created by roberto on 26/05/15.
- */
+angular.module('DataController', []).controller('DataController', function($scope) {
+	$scope.tagline = 'tagline for';
+});
